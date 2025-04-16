@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <script>
+        let previousInput = '';
+        let currentInput = '';
+        let currentOperation = '';
+
+        function appendValue(value) {
+            currentInput += value;
+            document.getElementById('result').value = currentInput;
+        }
+
+        function clearResult() {
+            currentInput = '';
+            previousInput = '';
+            currentOperation = '';
+            document.getElementById('result').value = '';
+        }
+
+        function setOperation(operation) {
+            if (currentInput === '') return;
+            if (previousInput !== '') {
+                calculate();
+            }
+            currentOperation = operation;
+            previousInput = currentInput;
+            currentInput = '';
+        }
+
+        function calculate() {
+            if (previousInput === '' || currentInput === '') return;
+
+            let result;
+            let prev = parseFloat(previousInput);
+            let current = parseFloat(currentInput);
+
+            switch (currentOperation) {
+                case '+':
+                    result = prev + current;
+                    break;
+                case '-':
+                    result = prev - current;
+                    break;
+                case '*':
+                    result = prev * current;
+                    break;
+                case '/':
+                    if (current === 0) {
+                        alert("Cannot divide by zero");
+                        return;
+                    }
+                    result = prev / current;
+                    break;
+                default:
+                    return;
+            }
+
+            // Display the result and reset
+            currentInput = result.toString();
+            previousInput = '';
+            currentOperation = '';
+            document.getElementById('result').value = currentInput;
+        }
+    </script>
+</head>
+<body>
+    <center>
+    <fieldset>
+        <legend>
+            Calculator
+        </legend>
+    <h1>Simple Calculator</h1>
+    <div>
+        <input type="text" id="result" readonly>
+        <br>
+        <button onclick="appendValue('1')">1</button>
+        <button onclick="appendValue('2')">2</button>
+        <button onclick="appendValue('3')">3</button>
+        <button onclick="setOperation('+')">+</button>
+        <br>
+        <button onclick="appendValue('4')">4</button>
+        <button onclick="appendValue('5')">5</button>
+        <button onclick="appendValue('6')">6</button>
+        <button onclick="setOperation('-')">-</button>
+        <br>
+        <button onclick="appendValue('7')">7</button>
+        <button onclick="appendValue('8')">8</button>
+        <button onclick="appendValue('9')">9</button>
+        <button onclick="setOperation('*')">*</button>
+        <br>
+        <button onclick="appendValue('0')">0</button>
+        <button onclick="setOperation('%')">%</button>
+        <button onclick="setOperation('/')">/</button>
+        <button onclick="calculate()">=</button>
+        <br>
+        <button onclick="clearResult()">C</button>
+    </div>
+    </fieldset>
+    </center>
+</body>
+</html>
